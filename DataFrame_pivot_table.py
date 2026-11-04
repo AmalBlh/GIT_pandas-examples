@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Amal'
+__author__ = 'Robert Rodriguez Perez'
+
 
 import pandas as pd
 import numpy as np
@@ -26,21 +27,6 @@ mergeRatings = pd.merge(pd.merge(users, ratings), movies)
 def cloneDF(df):
     return pd.DataFrame(df.values.copy(), df.index.copy(), df.columns.copy()).convert_objects(convert_numeric=True)
 
-
-# Simple pivot (Groupby + avg)
-df_1 = cloneDF(mergeRatings)
-df_1 = df_1.pivot_table(index=['movie_id', 'title'])
-print('Columns(movie_id + title) to Index: \n%s' % df_1[:5])
-print('\n==================================================================\n')
-
-
-# Pivot by specific columns (Groupby + avg by rating and age)
-df_2 = cloneDF(mergeRatings)
-df_2 = df_2.pivot_table(index=['movie_id', 'title'], values=['rating', 'age'])
-print('Columns(movie_id + title) to Index and avg by values \n%s' % df_2[:5])
-print('\n==================================================================\n')
-
-
 # Pivot by specific columns, applying a functions
 df_3 = cloneDF(mergeRatings)
 df_3 = df_3.pivot_table(index=['movie_id', 'title'], values=[
@@ -50,9 +36,28 @@ print('Columns(movie_id + title) to Index and specific functions by values \n%s'
 print('\n==================================================================\n')
 
 
+# Simple pivot (Groupby + avg)
+df_1 = cloneDF(mergeRatings)
+df_1 = df_1.pivot_table(index=['movie_id', 'title'])
+print('Columns(movie_id + title) to Index: \n%s' % df_1[:5])
+print('\n==================================================================\n')
+
+
+
+# Pivot by specific columns (Groupby + avg by rating and age)
+df_2 = cloneDF(mergeRatings)
+df_2 = df_2.pivot_table(index=['movie_id', 'title'], values=['rating', 'age'])
+print('Columns(movie_id + title) to Index and avg by values \n%s' % df_2[:5])
+print('\n==================================================================\n')
+
+
+
+
 # Pivot by specific index, specific values and specific columns, applying a functions
 df_4 = cloneDF(mergeRatings)
 df_4 = df_4.pivot_table(index=['movie_id', 'title'], values=['rating'], columns=['gender'], aggfunc=[np.mean],
                         fill_value=-1, margins=True)
 print('Columns(movie_id + title) to Index and avg rating applied by gender \n%s' %
       df_4[:5])
+
+
